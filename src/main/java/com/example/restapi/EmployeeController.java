@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,7 +20,7 @@ public class EmployeeController {
     private EmployeeRepository employeeRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Long id) {
+    public ResponseEntity<Employee> getEmployeeById(OAuth2Authentication  authorizationHeader, @PathVariable Long id) {
         try {
 
             Employee employee = employeeRepository.findById(id).orElse(null);
@@ -28,7 +29,7 @@ public class EmployeeController {
 
                 HttpHeaders responseHeaders = new HttpHeaders();
                 responseHeaders.set("Application", contentType);
-                responseHeaders.set("Authorization", authorizationHeader);
+                responseHeaders.set("Authorization", String.valueOf(authorizationHeader));
 
                 return new ResponseEntity<>(employee, responseHeaders, HttpStatus.OK);
             } else {
