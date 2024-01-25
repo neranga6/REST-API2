@@ -14,14 +14,21 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableAuthorizationServer
 public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userService;
-    private final PasswordEncoder passwordEncoder;
+
+
+    private AuthenticationManager authenticationManager;
+
+
+    private UserDetailsService userService;
+
+
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public OAuthConfiguration(AuthenticationManager authenticationManager, UserDetailsService userService, PasswordEncoder passwordEncoder) {
@@ -57,4 +64,6 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
         converter.setAccessTokenConverter(accessTokenConverter);
         return converter;
     }
+
+
 }
